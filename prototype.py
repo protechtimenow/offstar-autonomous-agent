@@ -122,9 +122,12 @@ Type any command to start live testing!
         health_emoji = "💚" if overall_health > 0.85 else "💛" if overall_health > 0.7 else "❤️"
         print(f"\n{health_emoji} Overall Health: {overall_health:.1%}")
         
+        # Fix: Convert 3-element tuples to proper dictionary
+        components_dict = {component: {"status": status, "score": score} for component, status, score in checks}
+        
         result = {
             "overall_health": overall_health,
-            "components": dict(checks),
+            "components": components_dict,
             "status": "healthy" if overall_health > 0.85 else "degraded",
             "timestamp": datetime.now().isoformat()
         }
