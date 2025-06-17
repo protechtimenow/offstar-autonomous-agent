@@ -1,35 +1,32 @@
-# OffStar Autonomous Agent Docker Container
+# OffStar Autonomous Agent - Production Dockerfile
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED=1
-
-# Create app directory
+# Set working directory
 WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
+    gcc \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
 COPY requirements.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY offstar/ ./offstar/
-COPY tests/ ./tests/
+COPY . .
 
-# Create data directory for persistent storage
-RUN mkdir -p /app/data
+# Create non-root user
+RUN useradd -m -u 1000 offstar && chown -R offstar:offstar /app
+USER offstar
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import offstar; print('OffStar healthy')" || exit 1
+    CMD python -m offstar.cli.main health || exit 1
 
 # Default command
-CMD ["python", "-m", "offstar.cli.main", "status"]
+CMD ["python", "-m", "offstar.cli.main", "demo"]
+
+# Expose port for web interface (future)
+EXPOSE 8080
