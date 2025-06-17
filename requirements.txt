@@ -1,0 +1,35 @@
+# OffStar Dependencies
+
+# Core dependencies
+aiohttp>=3.8.0
+aiofiles>=23.1.0
+pydantic>=2.0.0
+click>=8.0.0
+typing-extensions>=4.0.0
+
+# Async and concurrency
+asyncio-throttle>=1.0.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization
+plotly>=5.14.0
+matplotlib>=3.7.0
+
+# Blockchain and Web3
+web3>=6.5.0
+
+# HTTP and API
+requests>=2.31.0
+httpx>=0.24.0
+
+# Configuration and logging
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Development tools (optional)
+pytest>=7.3.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
